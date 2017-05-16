@@ -1,0 +1,63 @@
+{
+  "seller": {
+    "name": "汉堡王",
+    "bulletin": "汉堡王，是全球大型连锁快餐企业，在全球61个国家及地区拥有超过11,220间分店。1954年，詹姆士·麦克拉摩及大卫·艾杰敦在美国佛罗里达州迈阿密共同经营创设第一家“汉堡王”厅。两位“汉堡王”创办人始终保持着要提供给顾客合理的价格、高品质的产品、快速的服务以及干净的环境的理念。",
+    "avatar": "http://img.lanrentuku.com/img/allimg/1503/142538324063.jpg",
+    "description": "蜂鸟专送",
+    "deliveryTime": 38,
+    "score": 4.6,
+    "supports": [{
+        "type": 0,
+        "description": "在线支付满28减5"
+      },
+      {
+        "type": 1,
+        "description": "VC无限橙果汁全场8折"
+      },
+      {
+        "type": 2,
+        "description": "单人精彩套餐"
+      },
+      {
+        "type": 3,
+        "description": "该商家支持发票, 请下单写好发票抬头"
+      },
+      {
+        "type": 4,
+        "description": "清肺雪梨汤8折抢购"
+      }
+    ]
+  },
+  "goods": [{
+      "name": "热销榜",
+      "type": -1,
+      "foods": [{
+        "name": "皇堡",
+        "price": 39,
+        "oldPrice": "",
+        "description": "普通皇堡",
+        "sellCount": "301",
+        "rating": 100,
+        "info": "皇堡于1957年由汉堡王创办人推出，当时只售0.37美元。1980年代，皇堡提升分量至三分之一磅（151.2克），而四分之一磅（113.4克）牛肉则为“小皇堡”。",
+        "ratings": [{
+          "username": "m******g",
+          "rateTime": 1469281964000,
+          "rateType": 0,
+          "text": "还可以",
+          "avatar": ""
+        }]
+      }]
+    },
+    {
+      "name": "商品2",
+      "type": 1
+    }
+  ],
+  "ratings": [{
+      "text": "评价1"
+    },
+    {
+      "text": "评价2"
+    }
+  ]
+}
