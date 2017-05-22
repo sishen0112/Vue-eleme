@@ -8,12 +8,21 @@
 - Flex 弹性布局，用来为盒状模型提供最大的灵活性 
 - RESTful API，通过NodeJS编写了 mock 数据的 API
 
-## 应用特点
-- 等着编写, 哈哈哈哈
-- 通过......达到......
-- 提供......以便于......
+## 用这个小应用练手 Vue 后所掌握的技术
+- 使用组件化, 模块化的数据驱动视图的开发模式
+- 了解 webpack 的打包原理
+- 使用 NodeJS 模拟 JSON 后端数据
+- ESLint 的使用及配置
+- 使用继 LESS, SASS 后的一个 CSS 预处理器 Stylus
+- 使用 vue-router
+- 使用 Axious 库进行 Ajax 请求
+- 使用 Vue 框架里的第三方 JS 插件
+- 编写炫酷交互动画
+- 制作字体图标
+- 使用 Flex 弹性布局
+- 使用经典的 css sticky footer 布局
 
-## Build Setup 运行步骤
+## Build Setup 
 
 ``` bash
 # install dependencies
