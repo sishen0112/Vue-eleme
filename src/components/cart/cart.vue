@@ -10,7 +10,7 @@
             {{totalCount}}
           </div>
         </div>
-        <div class="price" :class="{'highlight':totalCount>0}">
+        <div class="price" :class="{'highlight':totalPrice>0}">
           {{totalPrice}} 元
         </div>
         <div class="desc">
@@ -18,8 +18,8 @@
         </div>
     </div>
     <div class="content-right">
-      <div class="pay">
-        ￥{{minPrice}} 起送
+      <div class="pay" :class="payClass">
+        {{payDesc}}
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
       default () {
         return [{
           price: 10,
-          count: 1
+          count: 10
         }]
       }
     },
@@ -61,6 +61,19 @@ export default {
         count += food.count
       })
       return count
+    },
+    payDesc() {
+      if (this.totalPrice === 0) {
+        return `￥${this.minPrice}元起送`
+      } else if (this.totalPrice < this.minPrice) {
+        let diff = this.minPrice - this.totalPrice // 差额
+        return `还差￥${diff}元起送`
+      } else {
+        return '去结算'
+      }
+    },
+    payClass() {
+      return (this.totalPrice < this.minPrice) ? 'not-enough' : 'enough'
     }
   }
 }
@@ -76,7 +89,7 @@ export default {
   height:48px
   .content
     display:flex
-    background:rgba(0,0,0,.9)
+    background:#141d27
     height:100%
     font-size:0
     .content-left
@@ -91,7 +104,7 @@ export default {
         width:56px
         border-radius:50%
         box-sizing:border-box
-        background:rgba(0,0,0,.9)
+        background:#141d27
         color:rgba(255,255,255,.1)
         .logo
           display:inline-block
@@ -152,5 +165,9 @@ export default {
         font-size:12px
         color:rgba(255,255,255,.4)
         font-weight:700
-        background:rgba(255,255,255,.15)
+        &.not-enough
+          background:#2b333b
+        &.enough
+          background:#00b43c
+          color:white
 </style>

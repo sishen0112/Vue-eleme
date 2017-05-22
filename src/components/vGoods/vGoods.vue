@@ -137,7 +137,7 @@ export default {
     display:flex
     position:absolute
     top:178px
-    // bottom:46px
+    bottom:46px
     width:100%
     overflow:hidden
     .menu-wrapper
@@ -155,7 +155,6 @@ export default {
           z-index:10
           background-color:white
           font-weight:700
-          box-sizing:border-box
           border-left:3px solid rgb(0,160,220)
           .text
             border-none()
