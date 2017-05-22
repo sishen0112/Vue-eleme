@@ -50,6 +50,7 @@ export default {
 <style lang="stylus">
   @import './common/styles/mixin.styl'
   #app
+    height:100%
     .tab
       display:flex
       height:44px
