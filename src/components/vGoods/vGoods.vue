@@ -36,6 +36,7 @@
       </li>
     </ul>
   </div>
+  <cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></cart>
 </div>
 </template>
 
@@ -44,10 +45,12 @@ const ERR_OK = 0
 
 import BScroll from 'better-scroll'
 import icon from '../icon/icon'
+import cart from '../cart/cart'
 
 export default {
   components: {
-    icon
+    icon,
+    cart
   },
   props: {
     seller: {
@@ -92,7 +95,6 @@ export default {
 
       this.foodsScroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y))
-        console.log(this.scrollY)
       })
     },
     _calculateHeight() {
@@ -112,7 +114,6 @@ export default {
         return
       }
       this.foodsScroll.scrollTo(0, -this.listHeight[index], 500)
-      console.log(this.listHeight[index])
     }
   },
   computed: {
@@ -136,7 +137,7 @@ export default {
     display:flex
     position:absolute
     top:178px
-    bottom:46px
+    // bottom:46px
     width:100%
     overflow:hidden
     .menu-wrapper
@@ -154,7 +155,8 @@ export default {
           z-index:10
           background-color:white
           font-weight:700
-          border-left:2px solid #f00
+          box-sizing:border-box
+          border-left:3px solid rgb(0,160,220)
           .text
             border-none()
         .icon
