@@ -43,6 +43,7 @@
 const ERR_OK = 0
 
 import icon from '../icon/icon'
+
 export default {
   components: {
     icon
