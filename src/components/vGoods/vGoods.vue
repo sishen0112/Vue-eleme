@@ -2,7 +2,7 @@
 <div id="goods" class="goods">
   <div class="menu-wrapper" ref="menuWrapper">
     <ul>
-      <li v-for="(item,index) of goods" class="menu-item flexVerticalCenter" :class="{'current':currentIndex===index}">
+      <li v-for="(item,index) of goods" class="menu-item flexVerticalCenter" :class="{'current':currentIndex===index}" @click="selectMenu(index,$event)">
         <icon v-show="item.type>=0" :version="3" :classType="item.type"></icon>
         <span class="text">
              {{item.name}}
@@ -83,7 +83,9 @@ export default {
   },
   methods: {
     _initScroll() {
-      this.menuScroll = new BScroll(this.$refs.menuWrapper, {})
+      this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+        click: true
+      })
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
         probeType: 3
       })
@@ -103,6 +105,14 @@ export default {
         height += item.clientHeight
         this.listHeight.push(height)
       }
+    },
+    selectMenu(index, event) {
+      if (!event._constructed) {
+        // 浏览器原生点击事件
+        return
+      }
+      this.foodsScroll.scrollTo(0, -this.listHeight[index], 500)
+      console.log(this.listHeight[index])
     }
   },
   computed: {
@@ -144,6 +154,7 @@ export default {
           z-index:10
           background-color:white
           font-weight:700
+          border-left:2px solid #f00
           .text
             border-none()
         .icon
