@@ -5,12 +5,11 @@
          @click="minusCart">
         <i class="inner fa fa-minus-circle"></i>
       </div>
-
     </transition>
       <div v-show="food.count>0" class="cart-count">
         {{food.count}}
       </div>
-    <div class="cart-increase" @click="addCart">
+    <div class="cart-increase" @click="addCart" ref="addCartBtn">
       <i class="fa fa-plus-circle"></i>
     </div>
   </div>
@@ -35,6 +34,9 @@ export default {
       } else {
         this.food.count++
       }
+      this.$eventHub.$emit('add-cart', {
+        event
+      })
     },
     minusCart(event) {
       if (!event._constructed) {

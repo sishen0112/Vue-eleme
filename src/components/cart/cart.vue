@@ -1,10 +1,10 @@
 <template lang="html">
-<div class="shopcart">
+<div class="shopcart" id="shopcart">
   <div class="content">
     <div class="content-left">
         <div class="logo-wrapper">
           <div class="logo" :class="{'highlight':totalCount>0}">
-            <img src="./basket.svg" alt="">
+            <img src="./basket.svg" alt="" ref="logo">
           </div>
           <div class="num" v-show="totalCount>0">
             {{totalCount}}
@@ -47,6 +47,9 @@ export default {
       default: 0
     }
   },
+  data() {
+    return {}
+  },
   computed: {
     totalPrice() {
       let total = 0
@@ -74,6 +77,29 @@ export default {
     },
     payClass() {
       return (this.totalPrice < this.minPrice) ? 'not-enough' : 'enough'
+    }
+  },
+  methods: {
+    drop(event) {
+      console.log(event.event.offsetX + ',' + event.event.offsetY)
+      // 在点击位置初始化一个小球
+      var ball = document.createElement('span')
+      ball.setAttribute('class', 'ball')
+      // 设置小球的初始位置为点击时位置
+      ball.style.top = Math.abs(event.event.offsetY) + 'px'
+      ball.style.left = Math.abs(event.event.offsetX) + 'px'
+      document.getElementById('shopcart').appendChild(ball)
+      // 创建小球完毕
+      setTimeout(() => {
+        // 设置小球的移动结束位置
+        var logoRect = this.$refs.logo.getBoundingClientRect()
+        ball.style.top = (logoRect.top + 20) + 'px'
+        ball.style.left = logoRect.left + 'px'
+        ball.setAttribute('class', 'ball drop-ball')
+      }, 0)
+      setTimeout(() => {
+        document.getElementById('shopcart').removeChild(ball)
+      }, 500)
     }
   }
 }
@@ -170,4 +196,14 @@ export default {
         &.enough
           background:#00b43c
           color:white
+
+.drop-enter-active
+  transition:all .4s
+  .inner
+    width:16px
+    height:16px
+    border-radius:50%
+    // background:rgb(0,160,220)
+    background:red
+    transition:all .4s
 </style>

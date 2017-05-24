@@ -9,6 +9,8 @@ import '@/common/styles/index.styl'
 Vue.use(Router)
 Vue.prototype.$api = Api
 
+Vue.prototype.$eventHub = new Vue()
+
 export default new Router({
   linkActiveClass: 'active',
   routes: [

@@ -39,7 +39,7 @@
       </li>
     </ul>
   </div>
-  <cart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></cart>
+  <cart ref="cart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></cart>
 </div>
 </template>
 
@@ -89,8 +89,16 @@ export default {
       (err) => {
         console.log(err)
       })
+    // 监听事件 add-cart
+    this.$eventHub.$on('add-cart', (event) => {
+      this._drop(event) // 调用_drop方法
+    })
   },
   methods: {
+    _drop(event) {
+      // 调用子组件的drop方法
+      this.$refs.cart.drop(event)
+    },
     _initScroll() {
       this.menuScroll = new BScroll(this.$refs.menuWrapper, {
         click: true
