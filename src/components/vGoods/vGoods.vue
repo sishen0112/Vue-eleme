@@ -30,13 +30,16 @@
                 <span class="now">￥{{food.price}}</span>
                 <span class="old" v-show="food.oldPrice">{{food.oldPrice}}</span>
               </div>
+              <div class="cart-control-wrapper">
+                <cartControl :food="food"></cartControl>
+              </div>
             </div>
           </li>
         </ul>
       </li>
     </ul>
   </div>
-  <cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></cart>
+  <cart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></cart>
 </div>
 </template>
 
@@ -46,11 +49,13 @@ const ERR_OK = 0
 import BScroll from 'better-scroll'
 import icon from '../icon/icon'
 import cart from '../cart/cart'
+import cartControl from '../cartControl/cartControl'
 
 export default {
   components: {
     icon,
-    cart
+    cart,
+    cartControl
   },
   props: {
     seller: {
@@ -74,6 +79,7 @@ export default {
           // 在修改数据之后立即使用这个方法
           // 获取更新后的 DOM。
           this.$nextTick(() => {
+            // 下划线开头的为初始化方法
             this._initScroll()
             // 计算高度
             this._calculateHeight()
@@ -90,7 +96,8 @@ export default {
         click: true
       })
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
-        probeType: 3
+        probeType: 3,
+        click: true
       })
 
       this.foodsScroll.on('scroll', (pos) => {
@@ -126,6 +133,18 @@ export default {
         }
       }
       return 0
+    },
+    selectFoods() {
+      // 选择过的foods
+      let foods = []
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if (food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
     }
   }
 }
@@ -215,4 +234,8 @@ export default {
               text-decoration:line-through
               font-size:10px
               color:rgb(147,153,159)
+          .cart-control-wrapper
+            position:absolute
+            right:0
+            bottom:12px
 </style>
