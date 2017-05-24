@@ -90,16 +90,16 @@ export default {
       ball.style.left = Math.abs(event.event.offsetX) + 'px'
       document.getElementById('shopcart').appendChild(ball)
       // 创建小球完毕
+
+      // 获取logo的位置
+      var logoRect = this.$refs.logo.getBoundingClientRect()
+      // 移动小球
+      ball.style.top = (logoRect.top) + 'px'
+      ball.style.left = logoRect.left + 'px'
       setTimeout(() => {
-        // 设置小球的移动结束位置
-        var logoRect = this.$refs.logo.getBoundingClientRect()
-        ball.style.top = (logoRect.top + 20) + 'px'
-        ball.style.left = logoRect.left + 'px'
-        ball.setAttribute('class', 'ball drop-ball')
-      }, 0)
-      setTimeout(() => {
+        // 销毁小球
         document.getElementById('shopcart').removeChild(ball)
-      }, 500)
+      }, 1000)
     }
   }
 }
