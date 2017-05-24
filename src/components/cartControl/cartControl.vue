@@ -1,11 +1,10 @@
 <template lang="html">
   <div class="cart-control">
-    <transition name="move">
-      <div v-show="food.count>0" class="cart-decrease"
-         @click="minusCart">
-        <i class="inner fa fa-minus-circle"></i>
-      </div>
-    </transition>
+      <transition name="minus">
+        <div v-show="food.count>0" class="cart-decrease" @click="minusCart">
+          <i class="inner fa fa-minus-circle"></i>
+        </div>
+      </transition>
       <div v-show="food.count>0" class="cart-count">
         {{food.count}}
       </div>
@@ -29,7 +28,7 @@ export default {
         return
       }
       if (!this.food.count) {
-        // this.food.count = 1  // 新增,删除字段时候, 需要用Vue.set()
+        // 新增,删除字段时候, 需要用Vue.set() 才能相应数据
         Vue.set(this.food, 'count', 1)
       } else {
         this.food.count++
@@ -59,25 +58,27 @@ export default {
     font-size:22px
     line-height:24px
     color:rgb(0,160,220)
+  .cart-decrease
+    // 最终状态
+    transition: all .3s ease
+    position:relative
+    right:0px
+    &.minus-enter-active, &.minus-leave-active {
+      // 过渡中状态
+    }
+    &.minus-enter, &.minus-leave-active {
+      // 初始状态
+      opacity: 0
+      right:-22px
+      transform:rotate(-180deg)
+    }
   .cart-count
     display:inline-block
     padding-top:6px
-    // width:20px
+    width:20px
     line-height:24px
     text-align:center
-    font-size:18px
+    font-size:20px
     font-weight:300
     color:rgb(147,153,159)
-  .move-enter-active,.move-leave-active
-    transition:all .4s linear
-    opacity:1
-    transform: translate3D(0,0,0)
-    i
-      transition:all .4s linear
-      transform: rotate(0)
-  .move-enter,.move-leave-to
-    opacity: 0
-    transform: translate3D(24px,0,0)
-    i
-      transform: rotate(180deg)
 </style>

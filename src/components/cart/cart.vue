@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="shopcart" id="shopcart">
   <div class="content">
-    <div class="content-left">
+    <div class="content-left" @click="toggleList">
         <div class="logo-wrapper">
           <div class="logo" :class="{'highlight':totalCount>0}">
             <img src="./basket.svg" alt="" ref="logo">
@@ -23,11 +23,37 @@
       </div>
     </div>
   </div>
+  <transition name="slideup">
+    <div class="cart-list" v-show="listShow">
+      <div class="list-header">
+        <h1 class="title">购物车</h1>
+        <span class="empty" @click="clearCart">清空</span>
+      </div>
+      <div class="list-content" ref="listCount">
+        <ul>
+          <li class="food" v-for="(food,index) of selectFoods">
+            <span class="name">{{food.name}}</span>
+            <div class="price">
+              <span>￥{{food.price*food.count}}</span>
+            </div>
+            <div class="cart-control-wrapper">
+              <cartControl :food="food"></cartControl>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </transition>
 </div>
 </template>
 
 <script>
+import BScroll from 'better-scroll'
+import cartControl from '../cartControl/cartControl'
 export default {
+  components: {
+    cartControl
+  },
   props: {
     selectFoods: {
       type: Array,
@@ -48,7 +74,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      fold: true
+    }
   },
   computed: {
     totalPrice() {
@@ -77,11 +105,31 @@ export default {
     },
     payClass() {
       return (this.totalPrice < this.minPrice) ? 'not-enough' : 'enough'
+    },
+    listShow() {
+      if (!this.totalCount > 0) {
+        // 没有购买任何商品, 购物车为折叠状态
+        this.fold = true
+        return false
+      }
+      let show = !this.fold // 折叠状态
+      if (show) {
+        // 如果显示购物车列表, 则用better-scroll
+        if (!this.scroll) {
+          this.$nextTick(() => {
+            this.scroll = new BScroll(this.$refs.listCount, {
+              click: true
+            })
+          })
+        } else {
+          this.scroll.refresh()
+        }
+      }
+      return show
     }
   },
   methods: {
     drop(event) {
-      console.log(event.event.offsetX + ',' + event.event.offsetY)
       // 在点击位置初始化一个小球
       var ball = document.createElement('span')
       ball.setAttribute('class', 'ball')
@@ -100,12 +148,23 @@ export default {
         // 销毁小球
         document.getElementById('shopcart').removeChild(ball)
       }, 1000)
+    },
+    toggleList() {
+      // 如果购物车里没东西, 就不展开, 否则就开或者关
+      this.fold = !this.totalCount ? false : !this.fold
+    },
+    clearCart() {
+      for (let i = 0; i < this.selectFoods.length; i++) {
+        console.log(this.selectFoods[i].name)
+        this.selectFoods.shift()
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+@import "../../common/styles/mixin.styl"
 .shopcart
   position:fixed
   bottom:0
@@ -196,14 +255,57 @@ export default {
         &.enough
           background:#00b43c
           color:white
-
-.drop-enter-active
-  transition:all .4s
-  .inner
-    width:16px
-    height:16px
-    border-radius:50%
-    // background:rgb(0,160,220)
-    background:red
-    transition:all .4s
+  .cart-list
+    // 过渡后状态
+    position:absolute
+    left:0
+    bottom:48px
+    z-index:-1
+    width:100%
+    transition: all .5s ease
+    &.slideup-enter-active, &.slideup-leave-active
+      // 过渡中状态
+    &.slideup-enter, &.slideup-leave-active
+      // 起始状态
+      // opacity:0
+      transform:translate3d(0,100%,0)
+    .list-header
+      height:40px
+      line-height:40px
+      padding:0 18px
+      background:#f3f5f7
+      border-bottom:1px solid rgba(7,17,27,.1)
+      .title
+        float:left
+        font-size:14px
+        color:rgb(7,17,27)
+      .empty
+        float:right
+        font-size:12px
+        color:rgb(0,160,220)
+    .list-content
+        padding:0 18px
+        max-height:217px
+        background:white
+        overflow:hidden
+        .food
+          position:relative
+          padding:12px 0
+          box-sizing:border-box
+          border-1px(rgba(7,17,27,.1))
+          .name
+            line-height:24px
+            font-size:14px
+            color:rgb(7,17,27)
+          .price
+            position:absolute
+            right:90px
+            bottom:12px
+            line-height:24px
+            font-weight:700
+            color:rgb(240,20,20)
+          .cart-control-wrapper
+            position:absolute
+            right:0
+            bottom:6px
 </style>
